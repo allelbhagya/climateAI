@@ -4,7 +4,7 @@ from typing import TypedDict, Annotated
 class AgentState(TypedDict):
 
     question: str
-    retrived_chunks:list
+    retrieved_chunks: list
     answer:str
     faithfull_score: float
     attempt_count: int

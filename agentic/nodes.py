@@ -16,13 +16,12 @@ OLLAMA_MODEL = "gpt-oss:20b"
 OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY")
 
 
+# reading question from state and returning retrived chunks
 def retrieve_node(state):
     question = state["question"]
     chunks = search(question, top_k=5)
 
-    return {
-        "retrieved_chunks": chunks
-    }
+    return {"retrieved_chunks": chunks}
 
 
 def build_context(chunks):
@@ -32,6 +31,8 @@ def build_context(chunks):
     return "\n\n".join(context_parts)
 
 
+# first attempt normal grounding
+# any attempt_count >1, attempt strict instructions, including previous answer
 def build_prompt(question, context, attempt_count, previous_answer=None):
     if attempt_count == 1:
         return f"""You are a climate science assistant. Answer the question using ONLY the context provided below.
@@ -64,6 +65,8 @@ def build_prompt(question, context, attempt_count, previous_answer=None):
                     Answer:"""
 
 
+# taking question, retrived chunks and attempt count from state
+# return answera and attempt count (overwrite)
 def generate_node(state):
     question = state["question"]
     chunks = state["retrieved_chunks"]
@@ -103,12 +106,13 @@ def compute_faithfulness(answer, chunks):
 
     chunk_texts = [c["text"] for c in chunks]
 
+    # embedd both sentences and chunks - return vector
     sentence_vectors = embedding_model.encode(sentences, convert_to_numpy=True)
     chunk_vectors = embedding_model.encode(chunk_texts, convert_to_numpy=True)
-
+    # normalize both vectors l2 norm
     sentence_vectors = sentence_vectors / np.linalg.norm(sentence_vectors, axis=1, keepdims=True)
     chunk_vectors = chunk_vectors / np.linalg.norm(chunk_vectors, axis=1, keepdims=True)
-
+    # cosine similarity 
     similarity_matrix = sentence_vectors @ chunk_vectors.T
     max_similarity_per_sentence = similarity_matrix.max(axis=1)
 

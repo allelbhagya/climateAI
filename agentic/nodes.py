@@ -132,7 +132,23 @@ def evaluate_node(state):
         "faithfulness_score": score,
     }
 
-    return {
+    update = {
         "faithfulness_score": score,
-        "history": [record]
+        "history": [record],
     }
+
+    # keep best score
+
+    if score > state.get("best_score", -1):
+        update["best_score"] = score
+        update["best_answer"] = answer
+
+    return update
+
+def finalize_node(state):
+    if "best_answer" in state:
+        return {
+            "answer": state["best_answer"],
+            "faithfulness_score": state["best_score"],
+        }
+    return {}

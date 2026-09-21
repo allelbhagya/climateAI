@@ -1,5 +1,5 @@
 import operator
-from typing import TypedDict, Annotated
+from typing import TypedDict, Annotated, Optional
 
 class AgentState(TypedDict):
 
@@ -8,5 +8,7 @@ class AgentState(TypedDict):
     answer:str
     faithfulness_score: float
     attempt_count: int
+    best_answer: Optional[str]
+    best_score: Optional[float]
 
     history: Annotated[list, operator.add]

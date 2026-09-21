@@ -10,6 +10,9 @@ app = FastAPI(title = "Climate QA")
 class Question(BaseModel):
     question:str
 
+@app.get("/ping")
+def ping():
+    return {"message": "pong"}
 
 @app.post("/ask")
 def ask(q: Question):

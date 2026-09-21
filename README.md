@@ -14,14 +14,12 @@ pip install -r requirements.txt
 python -m agentic.test_graph 
 ```
 
-test api
+test api: running streamlit
 
 ```bash
+# terminal 1
 uvicorn main:app --reload --port 8000
 
-curl http://localhost:8000/ping
-
-curl -X POST http://localhost:8000/ask \
-     -H "Content-Type: application/json" \
-     -d '{"question": "What is climate change?"}'
+#terminal 2
+streamlit run main_app.py
 ```

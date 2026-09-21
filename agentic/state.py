@@ -2,12 +2,13 @@ import operator
 from typing import TypedDict, Annotated, Optional
 
 class AgentState(TypedDict):
-
     question: str
-    retrieved_chunks: list
-    answer:str
-    faithfulness_score: float
+    doc_id: str 
+    answer: Optional[str]
+    retrieved_chunks: Optional[list]
+    faithfulness_score: Optional[float]
     attempt_count: int
+    history: list
     best_answer: Optional[str]
     best_score: Optional[float]
 

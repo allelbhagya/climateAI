@@ -19,10 +19,9 @@ OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY")
 # reading question from state and returning retrived chunks
 def retrieve_node(state):
     question = state["question"]
-    chunks = search(question, top_k=5)
-
+    doc_id = state["doc_id"]
+    chunks = search(question, doc_id=doc_id, top_k=5)
     return {"retrieved_chunks": chunks}
-
 
 def build_context(chunks):
     context_parts = []

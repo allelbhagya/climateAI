@@ -6,7 +6,11 @@
 - keeps track of the best scoring attempt so a give-up still returns the strongest answer, not just the last one
 - wrapped it in fastapi with /ask endpoint
 
-setup
+<img width="1194" height="700" alt="image" src="https://github.com/user-attachments/assets/1b1b8fb3-4654-4a91-a502-e180889c76c2" />
+
+---
+
+> setup
 
 ```bash
 pip install -r requirements.txt
@@ -14,7 +18,7 @@ pip install -r requirements.txt
 python -m agentic.test_graph 
 ```
 
-test api: running streamlit
+> test api: running streamlit
 
 ```bash
 # terminal 1
